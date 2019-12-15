@@ -18,6 +18,7 @@ class Stepper:
         self.scale = 2 * math.pi
         self.minSpeed = 0.002
         self.maxSpeed = 0.0005
+        self.isClockwise = None
         
     def setScale(self, scale):
         self.scale = scale
@@ -28,9 +29,11 @@ class Stepper:
     '''
     def setClockwise(self):
         self.dir.value = False
+        self.isClockwise = True
         
     def setAnticlockwise(self):
         self.dir.value = True
+        self.isClockwise = False
         
     def getPosition(self):
         return (self.scale*self.value)/200
@@ -41,7 +44,6 @@ class Stepper:
     def move(self, steps, speed = 0.5):
         interstice = self.maxSpeed + (abs(self.minSpeed - self.maxSpeed) * (1-speed))
         #0.0005+(math.abs(0.0005-0.002)*0.5)
-        print(interstice)
         for i in range(steps):
             self.value += 1
             self.step.value = True
