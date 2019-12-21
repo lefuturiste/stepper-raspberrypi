@@ -9,9 +9,9 @@ import sys
 import os 
 
 
-stepper = Stepper(17, 27, 22)
+stepper = Stepper(17, 18, 27)
 stepper.setClockwise()
-btn = DigitalInputDevice(23, True)
+btn = DigitalInputDevice(22, True)
 
 def watchInput():
     global speed
@@ -26,8 +26,10 @@ def watchInput():
                     speed -= 0.01
             if e == 'KEY_RIGHT':
                 if stepper.isClockwise:
+                    print('Set as ANTIClockwise')
                     stepper.setAnticlockwise()
                 else:
+                    print('Set as clockwise')
                     stepper.setClockwise()
 
 speed = 0.01

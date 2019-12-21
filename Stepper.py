@@ -37,14 +37,32 @@ class Stepper:
         
     def getPosition(self):
         return (self.scale*self.value)/200
+    
+    def goTo(self, position, speed = 0.8):
+        startSpeed = 0.7
+        speed = 0.1
+        # on fait augementer la vitesse au fur et à mesure sur les 10 steps si la vitesse est sup à 0.7
+        for i in range(10):
+            self.move(step)
         
+    def computeInterstice(self, speed):
+        return self.maxSpeed + (abs(self.minSpeed - self.maxSpeed) * (1-speed))
+    
     '''
     Speed: 1 = Max speeed; 0 = Min speed
     '''
     def move(self, steps, speed = 0.5):
-        interstice = self.maxSpeed + (abs(self.minSpeed - self.maxSpeed) * (1-speed))
-        #0.0005+(math.abs(0.0005-0.002)*0.5)
+        currentSpeed = speed
+        accleratingSteps = steps
+        startingSpeed = 0.9
+        if speed > startingSpeed:
+            delta = (speed - startingSpeed)/steps
+            currentSpeed = startingSpeed
+        interstice = self.computeInterstice(currentSpeed)
         for i in range(steps):
+            if speed > startingSpeed:
+                interstice = self.computeInterstice(startingSpeed + delta*i)
+                print(i, interstice)
             self.value += 1
             self.step.value = True
             time.sleep(interstice)
